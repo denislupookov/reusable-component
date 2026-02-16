@@ -1,0 +1,22 @@
+{
+    "name": "reusable-component-monorepo",
+    "private": true,
+    "workspaces": [
+        "packages/*",
+        "apps/*"
+    ],
+    "devDependencies": {
+        "react-dom": "19.1.0",
+        "react-native-web": "^0.21.2",
+        "react-native-gesture-handler": "2.30.0",
+        "react-native-reanimated": "4.1.6",
+        "react-native-worklets": "0.5.2"
+    },
+    "overrides": {
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "react-native-gesture-handler": "2.30.0",
+        "react-native-reanimated": "4.1.6",
+        "react-native-worklets": "0.5.2"
+    }
+}
