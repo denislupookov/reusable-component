@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { theme } from '../theme';
 
 export interface DropdownProps {
     label: string;
@@ -41,7 +42,10 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, items, onSelect }) =>
                                 setIsOpen(false);
                             }}
                         >
-                            <Text style={styles.itemText}>{item}</Text>
+                            <Text style={[
+                                styles.itemText,
+                                selected === item && styles.itemTextSelected
+                            ]}>{item}</Text>
                         </Pressable>
                     ))}
                 </View>
@@ -57,56 +61,65 @@ const styles = StyleSheet.create({
         zIndex: 100
     },
     label: {
-        fontSize: 14,
-        marginBottom: 4,
-        fontWeight: '500',
-        color: '#fff',
+        fontSize: theme.typography.size.sm,
+        marginBottom: theme.spacing.xs,
+        fontWeight: theme.typography.weight.medium,
+        color: theme.colors.text.secondary,
     },
     trigger: {
         borderWidth: 1,
-        borderColor: '#212814',
-        borderRadius: 8,
-        padding: 12,
+        borderColor: theme.colors.border.default,
+        borderRadius: theme.borderRadius.sm,
+        padding: theme.spacing.md,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#14180e',
-        gap: 8,
+        backgroundColor: theme.colors.background.dropdown,
+        gap: theme.spacing.sm,
     },
     triggerText: {
-        fontSize: 14,
-        color: '#fff',
-        fontWeight: '500',
+        fontSize: theme.typography.size.sm,
+        color: theme.colors.text.secondary,
+        fontWeight: theme.typography.weight.medium,
         flex: 1,
     },
     triggerIcon: {
-        color: '#fff',
-        fontSize: 14,
+        color: theme.colors.text.secondary,
+        fontSize: theme.typography.size.sm,
     },
     dropdownList: {
         position: 'absolute',
         top: '100%',
         left: 0,
         right: 0,
-        marginTop: 4,
-        backgroundColor: 'white',
+        marginTop: theme.spacing.xs,
+        backgroundColor: theme.colors.background.surface,
         borderWidth: 1,
-        borderColor: '#eee',
-        borderRadius: 8,
+        borderColor: theme.colors.border.light,
+        borderRadius: theme.borderRadius.sm,
         elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
     },
     item: {
-        padding: 12,
+        padding: theme.spacing.md,
         borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
+        borderBottomColor: theme.colors.border.light,
     },
     itemPressed: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#f5f5f5', // Consider adding to theme if used often
     },
     itemSelected: {
-        backgroundColor: '#e6f7ff',
+        backgroundColor: theme.colors.background.primary + '20', // 20% opacity
     },
     itemText: {
-        fontSize: 16,
+        fontSize: theme.typography.size.md,
+        color: theme.colors.text.primary,
+    },
+    itemTextSelected: {
+        fontWeight: theme.typography.weight.semibold,
+        color: theme.colors.text.primary,
     },
 });

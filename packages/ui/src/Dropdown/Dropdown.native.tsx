@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { theme } from '../theme';
 
 export interface DropdownProps {
     label: string;
@@ -61,6 +62,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, items, onSelect }) =>
                 snapPoints={snapPoints}
                 enablePanDownToClose={true}
                 backdropComponent={renderBackdrop}
+                handleIndicatorStyle={{ backgroundColor: theme.colors.border.light }}
             >
                 <BottomSheetView style={styles.contentContainer as any}>
                     <Text style={styles.sheetTitle}>Select an Option</Text>
@@ -74,7 +76,10 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, items, onSelect }) =>
                             ]}
                             onPress={() => handleSelect(item)}
                         >
-                            <Text style={styles.itemText}>{item}</Text>
+                            <Text style={[
+                                styles.itemText,
+                                selected === item && styles.itemTextSelected
+                            ]}>{item}</Text>
                         </Pressable>
                     ))}
                 </BottomSheetView>
@@ -86,61 +91,66 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, items, onSelect }) =>
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        padding: 24,
+        padding: theme.spacing.xl,
     },
     label: {
-        marginBottom: 8,
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#fff',
+        marginBottom: theme.spacing.sm,
+        fontSize: theme.typography.size.md,
+        fontWeight: theme.typography.weight.semibold,
+        color: theme.colors.text.secondary,
     },
     trigger: {
-        padding: 12,
-        borderRadius: 8,
+        padding: theme.spacing.md,
+        borderRadius: theme.borderRadius.sm,
         borderWidth: 1,
-        borderColor: '#212814',
-        backgroundColor: '#14180e',
+        borderColor: theme.colors.border.default,
+        backgroundColor: theme.colors.background.dropdown,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: 8,
+        gap: theme.spacing.sm,
         alignSelf: 'stretch',
         elevation: 2,
     },
     triggerText: {
-        fontSize: 14,
-        color: '#fff',
-        fontWeight: '500',
+        fontSize: theme.typography.size.sm,
+        color: theme.colors.text.secondary,
+        fontWeight: theme.typography.weight.medium,
         flex: 1,
     },
     triggerIcon: {
-        color: '#fff',
-        fontSize: 14,
+        color: theme.colors.text.secondary,
+        fontSize: theme.typography.size.sm,
     },
     contentContainer: {
         flex: 1,
-        padding: 24,
+        padding: theme.spacing.xl,
         alignItems: 'stretch',
     },
     sheetTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
+        fontSize: theme.typography.size.xl,
+        fontWeight: theme.typography.weight.bold,
+        marginBottom: theme.typography.size.xl,
         textAlign: 'center',
+        color: theme.colors.text.primary,
     },
     item: {
-        paddingVertical: 16,
+        paddingVertical: theme.spacing.lg,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: theme.colors.border.light,
     },
     itemPressed: {
         backgroundColor: '#f9f9f9',
     },
     itemSelected: {
-        backgroundColor: '#e6f7ff',
+        backgroundColor: theme.colors.background.primary + '20',
     },
     itemText: {
-        fontSize: 18,
+        fontSize: theme.typography.size.lg,
         textAlign: 'center',
+        color: theme.colors.text.primary,
+    },
+    itemTextSelected: {
+        fontWeight: theme.typography.weight.semibold,
     },
 });

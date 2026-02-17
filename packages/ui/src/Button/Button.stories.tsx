@@ -7,7 +7,7 @@ const meta: Meta<typeof Button> = {
     component: Button,
     tags: ['autodocs'],
     argTypes: {
-        onClick: { action: 'clicked' },
+        onPress: { action: 'pressed' },
         variant: {
             control: 'select',
             options: ['primary', 'secondary'],
