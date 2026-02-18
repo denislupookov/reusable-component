@@ -7,6 +7,12 @@ The example includes 3 components and shows different reuse strategies:
 - `Dropdown`: different fallback depending on mobile vs web.
 - `NativeBottomSheet`: showcases using Expo UI for a native iOS view in addition to web/Android fallbacks.
 
+## Screenshots
+
+| Browser Extension | Mobile |
+|:---:|:---:|
+| <img src="./assets/Screenshot 2026-02-18 at 15.27.22.png" width="300" alt="Browser Extension" /> | <img src="./assets/Screenshot 2026-02-18 at 15.27.28.png" width="300" alt="Mobile" /> |
+
 **Project Layout**
 - `apps/mobile`: Expo mobile app
 - `apps/extension`: Web extension UI
