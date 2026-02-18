@@ -61,8 +61,4 @@ npm run build-storybook
 **Components**
 - `Button`: Pressable with `primary`/`secondary` variants, disabled state, and web hover styling.
 - `Dropdown`: Uses `@gorhom/bottom-sheet` on native and an inline list on web.
-- `NativeBottomSheet`: Example showing how we handle different implementations per platform.
-- `NativeBottomSheet`: iOS uses `@expo/ui/swift-ui` `BottomSheet` (SwiftUI only).
-- `NativeBottomSheet`: Android uses `@gorhom/bottom-sheet`.
-- `NativeBottomSheet`: Web falls back to a `Modal`.
-- `NativeBottomSheet`: For iOS, pass SwiftUI content via `iosContent` or it will appear empty.
+- `NativeBottomSheet`: Demonstrates platform-specific implementations: iOS leverages `@expo/ui/swift-ui`, Android uses `@gorhom/bottom-sheet`, and Web falls back to a `Modal`.
