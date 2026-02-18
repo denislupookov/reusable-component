@@ -8,19 +8,20 @@ function App() {
 
   return (
     <div className="card">
-      <h1>Extension App</h1>
-      <Button
-        text="Hello from Extension!"
-        onPress={() => alert('Extension Clicked!')}
-      />
-      <div style={{ marginTop: 20 }}>
+      <div className="buttonRow">
+        <Button
+          text="Hello from Extension!"
+          onPress={() => alert('Extension Clicked!')}
+        />
+      </div>
+      <div className="dropdownRow">
         <Dropdown
           label="Choose Extension Option"
           items={['Option A', 'Option B', 'Option C']}
           onSelect={(item) => console.log('Selected:', item)}
         />
       </div>
-      <div style={{ marginTop: 20 }}>
+      <div className="buttonRow">
         <Button text="Open Native Sheet" onPress={() => setSheetOpen(true)} />
       </div>
       <NativeBottomSheet isOpen={isSheetOpen} onOpenChange={setSheetOpen}>

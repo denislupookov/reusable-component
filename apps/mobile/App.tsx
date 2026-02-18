@@ -33,7 +33,7 @@ export default function App() {
             <View style={styles.sheetContent}>
               <Text style={styles.sheetTitle}>Native Bottom Sheet</Text>
               <Text style={styles.sheetText}>
-                This sheet has some description text to show how it can handle dynamic content and adjust its height accordingly.
+                This sheet has some description text.
               </Text>
             </View>
           </NativeBottomSheet>

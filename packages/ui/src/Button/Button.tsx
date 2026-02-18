@@ -7,7 +7,6 @@ import {
   TextStyle,
   PressableStateCallbackType,
   StyleProp,
-  Platform,
 } from 'react-native';
 import { theme } from '../theme';
 
