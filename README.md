@@ -9,13 +9,14 @@ The example includes 3 components and shows different reuse strategies:
 
 ## Screenshots
 
-| Browser Extension | Mobile |
-|:---:|:---:|
-| <img src="./assets/Screenshot 2026-02-18 at 15.27.22.png" width="300" alt="Browser Extension" /> | <img src="./assets/Screenshot 2026-02-18 at 15.27.28.png" width="300" alt="Mobile" /> |
+| Browser Extension | Mobile | Desktop |
+|:---:|:---:|:---:|
+| <img src="./assets/extension.png" width="300" alt="Browser Extension" /> | <img src="./assets/mobile.png" width="300" alt="Mobile" /> | <img src="./assets/desktop.png" width="300" alt="Desktop" /> |
 
 **Project Layout**
 - `apps/mobile`: Expo mobile app
 - `apps/extension`: Web extension UI
+- `apps/desktop`: Desktop app
 - `packages/ui`: Shared UI components
 
 **Setup**

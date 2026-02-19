@@ -3,6 +3,8 @@ import {
   StyleSheet,
   Text,
   Pressable,
+} from 'react-native';
+import type {
   ViewStyle,
   TextStyle,
   PressableStateCallbackType,
