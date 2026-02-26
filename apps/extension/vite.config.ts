@@ -1,13 +1,33 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import tsConfigPaths from 'vite-tsconfig-paths'
+import viteBabel from 'vite-plugin-babel'
+
+const webOnlyExtensions = [".web.js", ".web.jsx", ".web.ts", ".web.tsx"];
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    tsConfigPaths(),
+    react({
+      babel: {
+        configFile: true,
+      },
+    }),
+    viteBabel(),
+  ],
   resolve: {
-    alias: {
-      'react-native': 'react-native-web',
-    },
+    dedupe: ['react', 'react-dom'],
+    extensions: [
+      ...webOnlyExtensions,
+      ".mjs",
+      ".js",
+      ".mts",
+      ".ts",
+      ".jsx",
+      ".tsx",
+      ".json",
+    ],
   },
   server: {
     fs: {

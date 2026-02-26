@@ -5,18 +5,18 @@ export const theme = {
             secondary: 'transparent',
             disabled: '#212814',
             dropdown: '#14180e',
-            overlay: 'rgba(0,0,0,0.5)',
-            surface: 'white',
+            surface: '#212814',
         },
         text: {
-            primary: 'black',
-            secondary: 'white',
+            primary: '#15180E',
+            secondary: '#A1AFA6',
             disabled: '#435123',
         },
         border: {
             default: '#212814',
             light: '#eee',
         },
+        overlay: 'rgba(0,0,0,0.5)',
     },
     spacing: {
         xs: 4,
@@ -42,6 +42,4 @@ export const theme = {
             bold: 'bold' as const,
         },
     },
-};
-
-export type Theme = typeof theme;
+} as const;

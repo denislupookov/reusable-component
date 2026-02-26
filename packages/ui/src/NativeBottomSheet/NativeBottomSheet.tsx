@@ -1,51 +1,59 @@
-import React from 'react';
-import { StyleSheet, Modal, Pressable } from 'react-native';
-import { theme } from '../theme';
+import type { ReactNode } from 'react';
+import { html, css } from 'react-strict-dom';
+import { colors, spacing, borderRadius } from '../theme.css';
 
 export interface NativeBottomSheetProps {
     isOpen: boolean;
     onOpenChange: (isOpen: boolean) => void;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
-export const NativeBottomSheet: React.FC<NativeBottomSheetProps> = ({
+export const NativeBottomSheet = ({
     isOpen,
     onOpenChange,
     children,
-}) => {
+}: NativeBottomSheetProps) => {
+    if (!isOpen) {
+        return null;
+    }
+
     return (
-        <Modal
-            visible={isOpen}
-            transparent
-            animationType="fade"
-            onRequestClose={() => onOpenChange(false)}
+        <html.div
+            style={styles.overlay}
+            onClick={() => onOpenChange(false)}
+            role="none"
         >
-            <Pressable style={styles.overlay} onPress={() => onOpenChange(false)}>
-                <Pressable style={styles.dialog} onPress={(e) => e.stopPropagation()}>
-                    {children}
-                </Pressable>
-            </Pressable>
-        </Modal>
+            <html.div
+                style={styles.dialog}
+                role="dialog"
+                aria-modal={true}
+                onClick={(event) => event.stopPropagation()}
+            >
+                {children}
+            </html.div>
+        </html.div>
     );
 };
 
-const styles = StyleSheet.create({
+const styles = css.create({
     overlay: {
-        flex: 1,
-        backgroundColor: theme.colors.background.overlay,
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        display: 'flex',
+        backgroundColor: colors.overlayBg,
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 1000,
     },
     dialog: {
         width: '88%',
         maxWidth: 520,
-        backgroundColor: theme.colors.background.surface,
-        borderRadius: theme.borderRadius.md,
-        padding: theme.spacing.xl,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.2,
-        shadowRadius: 16,
-        elevation: 8,
+        backgroundColor: colors.surfaceBg,
+        borderRadius: borderRadius.md,
+        padding: spacing.xl,
+        boxShadow: '0 6px 16px rgba(0,0,0,0.2)',
     },
 });

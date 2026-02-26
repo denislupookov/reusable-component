@@ -42,14 +42,18 @@
 .card {
   padding: 2em;
   width: 100%;
+  max-width: 1069px;
+  margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
 .buttonRow {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .buttonRow:first-child {
@@ -59,7 +63,6 @@
 .dropdownRow {
   margin-top: 20px;
   width: 100%;
-  align-self: stretch;
 }
 
 .read-the-docs {

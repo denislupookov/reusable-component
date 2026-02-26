@@ -1,51 +1,40 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  Pressable,
-} from 'react-native';
-import type {
-  ViewStyle,
-  TextStyle,
-  PressableStateCallbackType,
-  StyleProp,
-} from 'react-native';
-import { theme } from '../theme';
+import { html, css } from 'react-strict-dom';
+import { colors } from '../theme.css';
 
 export interface ButtonProps {
   text: string;
   onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+  style?: css.StyleXStyles;
+  textStyle?: css.StyleXStyles;
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   text,
   onPress,
   style,
   textStyle,
   variant = 'primary',
   disabled = false,
-}) => {
+}: ButtonProps) => {
   return (
-    <Pressable
-      style={(state: PressableStateCallbackType & { hovered?: boolean }) => [
+    <html.button
+      type="button"
+      style={[
         styles.container,
+        styles.interactive,
         variant === 'primary' && styles.primaryContainer,
         variant === 'secondary' && styles.secondaryContainer,
         disabled && styles.disabledContainer,
-        (state.pressed || state.hovered) && !disabled && styles.pressed,
         style,
       ]}
-      onPress={disabled ? undefined : onPress}
+      onClick={disabled ? undefined : onPress}
       disabled={disabled}
-      accessibilityRole="button"
-      accessibilityLabel={text}
-      accessibilityState={{ disabled }}
+      aria-label={text}
+      aria-disabled={disabled}
     >
-      <Text
+      <html.span
         style={[
           styles.text,
           variant === 'primary' && styles.primaryText,
@@ -55,44 +44,53 @@ export const Button: React.FC<ButtonProps> = ({
         ]}
       >
         {text}
-      </Text>
-    </Pressable>
+      </html.span>
+    </html.button>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = css.create({
   container: {
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: theme.borderRadius.sm,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: 8,
+    borderWidth: 0,
+    borderStyle: 'solid',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    gap: theme.spacing.xs,
+    display: 'flex',
+  },
+  interactive: {
+    opacity: {
+      default: 1,
+      ':hover': 0.9,
+      ':active': 0.8,
+    },
   },
   primaryContainer: {
-    backgroundColor: theme.colors.background.primary,
+    backgroundColor: colors.primaryBg,
   },
   secondaryContainer: {
-    backgroundColor: theme.colors.background.secondary,
+    backgroundColor: colors.secondaryBg,
   },
   disabledContainer: {
-    backgroundColor: theme.colors.background.disabled,
-  },
-  pressed: {
-    opacity: 0.8,
+    backgroundColor: colors.disabledBg,
+    opacity: 0.6,
   },
   text: {
-    fontSize: theme.typography.size.sm,
-    fontWeight: theme.typography.weight.medium,
+    fontSize: 14,
+    fontWeight: '500',
   },
   primaryText: {
-    color: theme.colors.text.primary,
+    color: colors.primaryText,
   },
   secondaryText: {
-    color: theme.colors.text.secondary,
+    color: colors.secondaryText,
   },
   disabledText: {
-    color: theme.colors.text.disabled,
+    color: colors.disabledText,
   },
 });

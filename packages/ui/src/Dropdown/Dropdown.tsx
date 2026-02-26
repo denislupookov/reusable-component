@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { theme } from '../theme';
+import { useState } from 'react';
+import { html, css } from 'react-strict-dom';
+import { colors } from '../theme.css';
 
 export interface DropdownProps {
     label: string;
@@ -8,118 +8,183 @@ export interface DropdownProps {
     onSelect: (item: string) => void;
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({ label, items, onSelect }) => {
+export const Dropdown = ({ label, items, onSelect }: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<string | null>(null);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
+        <html.div style={styles.container}>
+            <html.span style={styles.label}>{label}</html.span>
 
-            <Pressable
-                style={styles.trigger}
-                onPress={() => setIsOpen(!isOpen)}
+            <html.div
+                role="button"
+                tabIndex={0}
+                style={[styles.trigger, styles.triggerInteractive]}
+                onClick={() => {
+                    console.log('Dropdown trigger clicked. Current isOpen:', isOpen);
+                    setIsOpen(!isOpen);
+                }}
+                onKeyDown={(e: any) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        setIsOpen(!isOpen);
+                    }
+                }}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
             >
-                <Text style={styles.triggerText}>
+                <html.span style={styles.triggerText}>
                     {selected || "Select an option..."}
-                </Text>
-                <Text style={styles.triggerIcon}>▼</Text>
-            </Pressable>
+                </html.span>
+                <html.span style={styles.triggerIcon}>▼</html.span>
+            </html.div>
 
             {isOpen && (
-                <View style={styles.dropdownList}>
+                <html.div
+                    style={styles.dropdownList}
+                    role="listbox"
+                >
                     {items.map((item) => (
-                        <Pressable
+                        <html.div
+                            role="option"
+                            aria-selected={selected === item}
+                            tabIndex={0}
                             key={item}
-                            style={({ pressed }: { pressed: boolean }) => [
+                            style={[
                                 styles.item,
-                                pressed && styles.itemPressed,
-                                selected === item && styles.itemSelected
+                                styles.itemInteractive,
+                                selected === item && styles.itemSelected,
                             ]}
-                            onPress={() => {
+                            onClick={() => {
                                 setSelected(item);
                                 onSelect(item);
                                 setIsOpen(false);
                             }}
+                            onKeyDown={(e: any) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    setSelected(item);
+                                    onSelect(item);
+                                    setIsOpen(false);
+                                }
+                            }}
                         >
-                            <Text style={[
+                            <html.span style={[
                                 styles.itemText,
-                                selected === item && styles.itemTextSelected
-                            ]}>{item}</Text>
-                        </Pressable>
+                                selected === item && styles.itemTextSelected,
+                            ]}>{item}</html.span>
+                        </html.div>
                     ))}
-                </View>
+                </html.div>
             )}
-        </View>
+        </html.div>
     );
 };
 
-const styles = StyleSheet.create({
+const styles = css.create({
     container: {
         width: '100%',
-        alignSelf: 'stretch',
-        zIndex: 100
+        boxSizing: 'border-box',
+        position: 'relative',
+        zIndex: 100,
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: 12,
+        paddingBottom: 12,
+        overflow: 'visible',
+        display: 'flex',
+        flexDirection: 'column',
     },
     label: {
-        fontSize: theme.typography.size.sm,
-        marginBottom: theme.spacing.xs,
-        fontWeight: theme.typography.weight.medium,
-        color: theme.colors.text.secondary,
+        marginBottom: 8, // theme.spacing.sm
+        fontSize: 16, // theme.typography.size.md
+        fontWeight: '600', // semibold
+        color: colors.secondaryText,
     },
     trigger: {
+        boxSizing: 'border-box',
+        padding: 12, // theme.spacing.md
+        borderRadius: 8, // theme.borderRadius.sm
         borderWidth: 1,
-        borderColor: theme.colors.border.default,
-        borderRadius: theme.borderRadius.sm,
-        padding: theme.spacing.md,
+        borderStyle: 'solid',
+        borderColor: colors.defaultBorder,
+        backgroundColor: colors.dropdownBg,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        display: 'flex',
         alignItems: 'center',
-        backgroundColor: theme.colors.background.dropdown,
-        gap: theme.spacing.sm,
+        justifyContent: 'space-between',
+        gap: 8, // theme.spacing.sm
+        width: '100%', // FORCE bulletproof 100% width on web
+        cursor: 'pointer',
+    },
+    triggerInteractive: {
+        opacity: {
+            default: 1,
+            ':hover': 0.9,
+            ':active': 0.85,
+        },
     },
     triggerText: {
-        fontSize: theme.typography.size.sm,
-        color: theme.colors.text.secondary,
-        fontWeight: theme.typography.weight.medium,
+        fontSize: 14, // theme.typography.size.sm
+        color: colors.secondaryText,
+        fontWeight: '500', // medium
         flex: 1,
+        textAlign: 'left',
     },
     triggerIcon: {
-        color: theme.colors.text.secondary,
-        fontSize: theme.typography.size.sm,
+        color: colors.secondaryText,
+        fontSize: 14, // theme.typography.size.sm
     },
     dropdownList: {
         position: 'absolute',
-        top: '100%',
-        left: 0,
-        right: 0,
-        marginTop: theme.spacing.xs,
-        backgroundColor: theme.colors.background.surface,
-        borderWidth: 1,
-        borderColor: theme.colors.border.light,
-        borderRadius: theme.borderRadius.sm,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        top: 80, // force below the button explicitly by pixel height
+        left: 24, // match container padding
+        right: 24,
+        marginTop: 4,
+        backgroundColor: colors.dropdownBg,
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: colors.defaultBorder,
+        borderRadius: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        zIndex: 9999,
+        overflow: 'visible',
+        paddingTop: 4,
+        paddingBottom: 4,
     },
     item: {
-        padding: theme.spacing.md,
-        borderBottomWidth: 1,
-        borderBottomColor: theme.colors.border.light,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 12,
+        paddingRight: 12,
+        width: '100%',
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        textAlign: 'left',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        borderRadius: 6,
+        marginLeft: 4, // create small inner padding for hover effect
+        marginRight: 4,
+        boxSizing: 'border-box',
+        maxWidth: 'calc(100% - 8px)',
     },
-    itemPressed: {
-        backgroundColor: '#f5f5f5', // Consider adding to theme if used often
+    itemInteractive: {
+        backgroundColor: {
+            default: 'transparent',
+            ':hover': colors.defaultBorder, // Or colors.surfaceBg if you have a lighter variant
+            ':active': colors.defaultBorder,
+        },
     },
     itemSelected: {
-        backgroundColor: theme.colors.background.primary + '20', // 20% opacity
+        backgroundColor: '#B0D94420',
     },
     itemText: {
-        fontSize: theme.typography.size.md,
-        color: theme.colors.text.primary,
+        fontSize: 14, // theme.typography.size.sm
+        color: colors.secondaryText,
+        textAlign: 'left',
     },
     itemTextSelected: {
-        fontWeight: theme.typography.weight.semibold,
-        color: theme.colors.text.primary,
+        fontWeight: '600', // semibold
+        color: colors.primaryBg, // highlight selected item
     },
 });

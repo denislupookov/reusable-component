@@ -4,44 +4,47 @@ import { StyleSheet, View, Text, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { Dropdown, Button, NativeBottomSheet } from '@repo/ui';
+import { html } from 'react-strict-dom';
 
 export default function App() {
   const [isSheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#14180e' } as any}>
-      <BottomSheetModalProvider>
-        <View style={styles.container}>
-          <Button text="Hello from Mobile!" onPress={() => alert('Mobile Clicked!')} />
+    <html.div data-layoutconformance="strict" style={{ display: 'flex', flexDirection: 'column', height: '100%' } as any}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#14180e' } as any}>
+        <BottomSheetModalProvider>
+          <View style={styles.container}>
+            <Button text="Hello from Mobile!" onPress={() => alert('Mobile Clicked!')} />
 
-          <View style={{ width: '100%', marginTop: 20 }}>
-            <Dropdown
-              label="Mobile Dropdown"
-              items={['Mobile 1', 'Mobile 2', 'Mobile 3']}
-              onSelect={(item) => console.log('Selected:', item)}
-            />
-          </View>
-
-          <View style={{ marginTop: 20 }}>
-            <Button text="Open Native Sheet" onPress={() => setSheetOpen(true)} />
-          </View>
-
-          <NativeBottomSheet
-            isOpen={isSheetOpen}
-            onOpenChange={setSheetOpen}
-          >
-            <View style={styles.sheetContent}>
-              <Text style={styles.sheetTitle}>Native Bottom Sheet</Text>
-              <Text style={styles.sheetText}>
-                This sheet has some description text.
-              </Text>
+            <View style={{ width: '100%', marginTop: 20 }}>
+              <Dropdown
+                label="Mobile Dropdown"
+                items={['Mobile 1', 'Mobile 2', 'Mobile 3']}
+                onSelect={(item) => console.log('Selected:', item)}
+              />
             </View>
-          </NativeBottomSheet>
 
-          <StatusBar style="auto" />
-        </View>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+            <View style={{ marginTop: 20 }}>
+              <Button text="Open Native Sheet" onPress={() => setSheetOpen(true)} />
+            </View>
+
+            <NativeBottomSheet
+              isOpen={isSheetOpen}
+              onOpenChange={setSheetOpen}
+            >
+              <View style={styles.sheetContent}>
+                <Text style={styles.sheetTitle}>Native Bottom Sheet</Text>
+                <Text style={styles.sheetText}>
+                  This sheet has some description text.
+                </Text>
+              </View>
+            </NativeBottomSheet>
+
+            <StatusBar style="auto" />
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </html.div>
   );
 }
 
