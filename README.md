@@ -1,6 +1,6 @@
 # Reusable Component Monorepo
 
-This repo is an example of how to run reusable components across mobile (Expo/React Native) and browser (React). We achieve this by using aliasing in React Native Web, so the same component API can map to platform-specific implementations when needed.
+This repo is an example of how to run reusable components across mobile (Expo/React Native) and browser (React/Vite). We achieve this by leveraging **React Strict DOM** (`react-strict-dom`), so the same component code and styling API can map seamlessly to platform-specific native views on mobile, while compiling to strict standard DOM elements and static CSS on the web.
 
 The example includes 3 components and shows different reuse strategies:
 - `Button`: same UI across platforms.
